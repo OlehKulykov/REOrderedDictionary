@@ -29,6 +29,13 @@ class NSOrderedDictionaryPair {
 public:
     CFTypeRef key, obj;
     
+    void resetObj(id _Nonnull o) {
+        if (obj) {
+            CFBridgingRelease(obj);
+        }
+        obj = CFBridgingRetain(o);
+    }
+    
     void set(id _Nonnull k, id _Nonnull o) {
         key = CFBridgingRetain(k);
         obj = CFBridgingRetain(o);
@@ -173,6 +180,7 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
 }
 
 - (nullable id) objectForKeyedSubscript:(nonnull id) key {
+    NSParameterAssert(key != nil);
     for (NSOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
         if ([(__bridge id)(*it)->key isEqual:key]) {
             return (__bridge id)(*it)->obj;
@@ -288,6 +296,7 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
                           usingKeySortBlock:(nullable NS_NOESCAPE NSOrderedDictionaryKeyComparatorBlock) keyComparator {
     self = [self init];
     if (self) {
+        NSParameterAssert(dictionary != nil);
         NSOrderedDictionaryPairList * p = _p;
         [dictionary enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
             NSOrderedDictionaryPairPtr pair = std::make_shared<NSOrderedDictionaryPair>();
@@ -320,7 +329,12 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
     NSMutableString * str = [NSMutableString stringWithCapacity:128];
     [str appendString:@"{"];
     for (NSOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
-        [str appendFormat:@"\n    %@ = %@;", (__bridge id)(*it)->key, (__bridge id)(*it)->obj];
+        id obj = (__bridge id)(*it)->obj;
+        if ([obj isKindOfClass:[NSString class]]) {
+            [str appendFormat:@"\n    %@ = \"%@\";", (__bridge id)(*it)->key, obj];
+        } else {
+            [str appendFormat:@"\n    %@ = %@;", (__bridge id)(*it)->key, obj];
+        }
     }
     [str appendString:@"\n}"];
     return str;
@@ -352,4 +366,61 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
     }
 }
 
+static void NSMutableOrderedDictionarySetObjectForKey(NSOrderedDictionaryPairList * p, id _Nullable o, id _Nonnull k) {
+    for (NSOrderedDictionaryPairList::iterator it = p->begin(); it != p->end(); ++it) {
+        if ([(__bridge id)(*it)->key isEqual:k]) {
+            if (o) {
+                (*it)->resetObj(o);
+            } else {
+                p->erase(it);
+            }
+            return;
+        }
+    }
+    if (o) {
+        NSOrderedDictionaryPairPtr pair = std::make_shared<NSOrderedDictionaryPair>();
+        pair->set(k, o);
+        p->push_back(pair);
+    }
+}
+
+- (void) setObject:(nullable id) object forKey:(nonnull id) key {
+    NSParameterAssert(key != nil);
+    NSMutableOrderedDictionarySetObjectForKey(_p, object, key);
+}
+
+- (void) removeObjectForKey:(nonnull id) key {
+    NSParameterAssert(key != nil);
+    NSMutableOrderedDictionarySetObjectForKey(_p, nil, key);
+}
+
+- (void) setObject:(nullable id) object forKeyedSubscript:(nonnull id) key {
+    NSParameterAssert(key != nil);
+    NSMutableOrderedDictionarySetObjectForKey(_p, object, key);
+}
+
+- (void) insertObject:(nullable id) object forKey:(nonnull id) key atIndex:(NSUInteger) index {
+    NSParameterAssert(object != nil && key != nil && index <= _p->size());
+    NSOrderedDictionaryPairList::iterator it = _p->begin();
+    std::advance(it, index);
+    NSOrderedDictionaryPairPtr pair = std::make_shared<NSOrderedDictionaryPair>();
+    pair->set(key, object);
+    _p->insert(it, pair);
+}
+
 @end
+
+#pragma mark - Extensions
+
+@implementation NSDictionary (NSOrderedDictionary)
+
+- (nonnull NSOrderedDictionary *) orderedCopy {
+    return [[NSOrderedDictionary alloc] initWithDictionary:self usingKeySortFunction:NULL context:NULL];
+}
+
+- (nonnull NSMutableOrderedDictionary *) mutableOrderedCopy {
+    return [[NSMutableOrderedDictionary alloc] initWithDictionary:self usingKeySortFunction:NULL context:NULL];
+}
+
+@end
+

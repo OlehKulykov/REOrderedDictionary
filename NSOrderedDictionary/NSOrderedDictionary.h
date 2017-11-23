@@ -63,6 +63,8 @@ typedef NSInteger (*NSOrderedDictionaryKeyComparatorFunction)(id _Nullable, id _
 
 @end
 
+#pragma mark - NSMutableOrderedDictionary
+
 @interface NSMutableOrderedDictionary<KeyType, ObjectType> : NSOrderedDictionary<KeyType, ObjectType>
 
 - (void) sortUsingKeySortFunction:(nullable NS_NOESCAPE NSOrderedDictionaryKeyComparatorFunction) keyComparator
@@ -70,5 +72,29 @@ typedef NSInteger (*NSOrderedDictionaryKeyComparatorFunction)(id _Nullable, id _
 
 - (void) sortUsingKeySortBlock:(nullable NS_NOESCAPE NSOrderedDictionaryKeyComparatorBlock) keyComparator;
 
+- (void) removeObjectForKey:(nonnull KeyType) key;
+
+/**
+ @note If `key` not exists yet, than new object will be added at the end. Can break sorting order.
+ */
+- (void) setObject:(nullable ObjectType) object forKey:(nonnull KeyType) key;
+
+/**
+ @note If `key` not exists yet, than new object will be added at the end. Can break sorting order.
+ */
+- (void) setObject:(nullable ObjectType) object forKeyedSubscript:(nonnull KeyType) key;
+
+- (void) insertObject:(nullable ObjectType) object forKey:(nonnull KeyType) key atIndex:(NSUInteger) index;
+
 @end
 
+
+#pragma mark - Extensions
+
+@interface NSDictionary (NSOrderedDictionary)
+
+- (nonnull NSOrderedDictionary *) orderedCopy;
+
+- (nonnull NSMutableOrderedDictionary *) mutableOrderedCopy;
+
+@end
