@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 # Common settings
   s.name         = "REOrderedDictionary"
-  s.version      = "0.0.2"
+  s.version      = "0.0.3"
   s.summary      = "REOrderedDictionary - ordered NSDictionary implementation"
   s.description  = <<-DESC
 REOrderedDictionary - ordered NSDictionary implementation.
