@@ -23,20 +23,19 @@
 
 #import "REOrderedDictionary.h"
 
-// std::sort
-#include <algorithm>
-
-// std::vector
-#include <vector>
+#include <algorithm>    // std::sort
+#include <vector>       // std::vector
+#include <pthread.h>
 
 class REOrderedDictionaryPair {
 public:
     CFTypeRef key, obj;
     
     void resetObj(id _Nonnull o) {
-        if (obj) {
-            CFBridgingRelease(obj);
-        }
+#if defined(_DEBUG) || defined(DEBUG)
+        assert(obj != nil);
+#endif
+        CFBridgingRelease(obj);
         obj = CFBridgingRetain(o);
     }
     
@@ -81,6 +80,8 @@ NSString * _Nonnull const REOrderedDictionaryCoderKeyObjects =  @"REOrderedDicti
     REOrderedDictionaryPairList * _p;
 }
 
+- (nonnull REOrderedDictionaryPairList *) _pairList;
+
 @end
 
 @implementation REOrderedDictionary
@@ -99,10 +100,11 @@ NSString * _Nonnull const REOrderedDictionaryCoderKeyObjects =  @"REOrderedDicti
 #pragma mark - NSMutableCopying
 
 - (nonnull id) mutableCopyWithZone:(nullable NSZone *) zone {
-    REOrderedDictionary * d = [[NSMutableOrderedDictionary alloc] init];
+    REMutableOrderedDictionary * d = [[REMutableOrderedDictionary alloc] init];
+    REOrderedDictionaryPairList * p = [d _pairList];
     for (REOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
         REOrderedDictionaryPairPtr pair = *it;
-        d->_p->push_back(pair);
+        p->push_back(pair);
     }
     return d;
 }
@@ -163,6 +165,44 @@ NSString * _Nonnull const REOrderedDictionaryCoderKeyObjects =  @"REOrderedDicti
     }
     state->state = countOfItemsAlreadyEnumerated;
     return count;
+}
+
+#pragma mark - Common
+
+- (nonnull REOrderedDictionaryPairList *) _pairList {
+    return _p;
+}
+
+- (NSUInteger) count {
+    return (NSUInteger)_p->size();
+}
+
+#pragma mark - All keys and values
+
+- (nonnull NSArray *) allKeys {
+    const size_t count = _p->size();
+    if (count > 0) {
+        NSMutableArray * values = [NSMutableArray arrayWithCapacity:count];
+        for (REOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
+            REOrderedDictionaryPairPtr pair = *it;
+            [values addObject:(__bridge id)pair->key];
+        }
+        return values;
+    }
+    return @[];
+}
+
+- (nonnull NSArray *) allObjects {
+    const size_t count = _p->size();
+    if (count > 0) {
+        NSMutableArray * objects = [NSMutableArray arrayWithCapacity:count];
+        for (REOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
+            REOrderedDictionaryPairPtr pair = *it;
+            [objects addObject:(__bridge id)pair->obj];
+        }
+        return objects;
+    }
+    return @[];
 }
 
 #pragma mark - Subscripts
@@ -244,52 +284,19 @@ NSString * _Nonnull const REOrderedDictionaryCoderKeyObjects =  @"REOrderedDicti
     return [super isEqual:object];
 }
 
-#pragma mark - All keys and values
-
-- (nonnull NSArray *) allKeys {
-    const size_t count = _p->size();
-    if (count > 0) {
-        NSMutableArray * values = [NSMutableArray arrayWithCapacity:count];
-        for (REOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
-            REOrderedDictionaryPairPtr pair = *it;
-            [values addObject:(__bridge id)pair->key];
-        }
-        return values;
-    }
-    return @[];
-}
-
-- (nonnull NSArray *) allObjects {
-    const size_t count = _p->size();
-    if (count > 0) {
-        NSMutableArray * objects = [NSMutableArray arrayWithCapacity:count];
-        for (REOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
-            REOrderedDictionaryPairPtr pair = *it;
-            [objects addObject:(__bridge id)pair->obj];
-        }
-        return objects;
-    }
-    return @[];
-}
-
-#pragma mark -
-
-- (NSUInteger) count {
-    return (NSUInteger)_p->size();
-}
+#pragma mark - Initialization
 
 - (nonnull instancetype) init {
     self = [super init];
-    if (self) {
-        _p = new REOrderedDictionaryPairList();
-        assert(_p);
-    }
+    assert(self);
+    _p = new REOrderedDictionaryPairList();
+    assert(_p);
     return self;
 }
 
 - (nonnull instancetype) initWithObjectsAndKeys:(nullable id) firstObject, ... {
     self = [self init];
-    if (self && firstObject) {
+    if (firstObject) {
         id key = firstObject, obj = nil;
         va_list argsList;
         va_start(argsList, firstObject);
@@ -311,17 +318,19 @@ NSString * _Nonnull const REOrderedDictionaryCoderKeyObjects =  @"REOrderedDicti
 
 - (nonnull instancetype) initWithObjects:(nonnull NSArray *) allObjects andKeys:(nonnull NSArray *) allKeys {
     self = [self init];
-    if (self) {
-        NSEnumerator * keysEnumerator = [allKeys objectEnumerator];
-        NSEnumerator * objsEnumerator = [allObjects objectEnumerator];
-        id key = [keysEnumerator nextObject], obj = [objsEnumerator nextObject];
-        while (key && obj) {
-            REOrderedDictionaryPairPtr pair = std::make_shared<REOrderedDictionaryPair>();
-            pair->set(key, obj);
-            _p->push_back(pair);
-            key = [keysEnumerator nextObject];
-            obj = [objsEnumerator nextObject];
-        }
+#if defined(_DEBUG) || defined(DEBUG)
+    NSParameterAssert(allObjects != nil);
+    NSParameterAssert(allKeys != nil);
+#endif
+    NSEnumerator * keysEnumerator = [allKeys objectEnumerator];
+    NSEnumerator * objsEnumerator = [allObjects objectEnumerator];
+    id key = [keysEnumerator nextObject], obj = [objsEnumerator nextObject];
+    while (key && obj) {
+        REOrderedDictionaryPairPtr pair = std::make_shared<REOrderedDictionaryPair>();
+        pair->set(key, obj);
+        _p->push_back(pair);
+        key = [keysEnumerator nextObject];
+        obj = [objsEnumerator nextObject];
     }
     return self;
 }
@@ -330,19 +339,20 @@ NSString * _Nonnull const REOrderedDictionaryCoderKeyObjects =  @"REOrderedDicti
                        usingKeySortFunction:(nullable NS_NOESCAPE REOrderedDictionaryKeyComparatorFunction) keyComparator
                                     context:(nullable void *) context {
     self = [self init];
-    if (self) {
-        REOrderedDictionaryPairList * p = _p;
-        [dictionary enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            REOrderedDictionaryPairPtr pair = std::make_shared<REOrderedDictionaryPair>();
-            pair->set(key, obj);
-            p->push_back(pair);
-        }];
-        if (keyComparator) {
-            REOrderedDictionaryKeySortFunctorWithCallback functor;
-            functor.comparator = keyComparator;
-            functor.context = context;
-            std::sort(_p->begin(), _p->end(), functor);
-        }
+#if defined(_DEBUG) || defined(DEBUG)
+    NSParameterAssert(dictionary != nil);
+#endif
+    REOrderedDictionaryPairList * p = _p;
+    [dictionary enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        REOrderedDictionaryPairPtr pair = std::make_shared<REOrderedDictionaryPair>();
+        pair->set(key, obj);
+        p->push_back(pair);
+    }];
+    if (keyComparator) {
+        REOrderedDictionaryKeySortFunctorWithCallback functor;
+        functor.comparator = keyComparator;
+        functor.context = context;
+        std::sort(_p->begin(), _p->end(), functor);
     }
     return self;
 }
@@ -350,21 +360,19 @@ NSString * _Nonnull const REOrderedDictionaryCoderKeyObjects =  @"REOrderedDicti
 - (nonnull instancetype) initWithDictionary:(nonnull NSDictionary *) dictionary
                           usingKeySortBlock:(nullable NS_NOESCAPE REOrderedDictionaryKeyComparatorBlock) keyComparator {
     self = [self init];
-    if (self) {
 #if defined(_DEBUG) || defined(DEBUG)
-        NSParameterAssert(dictionary != nil);
+    NSParameterAssert(dictionary != nil);
 #endif
-        REOrderedDictionaryPairList * p = _p;
-        [dictionary enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            REOrderedDictionaryPairPtr pair = std::make_shared<REOrderedDictionaryPair>();
-            pair->set(key, obj);
-            p->push_back(pair);
-        }];
-        if (keyComparator) {
-            REOrderedDictionaryKeySortFunctorWithBlock functor;
-            functor.comparator = keyComparator;
-            std::sort(_p->begin(), _p->end(), functor);
-        }
+    REOrderedDictionaryPairList * p = _p;
+    [dictionary enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        REOrderedDictionaryPairPtr pair = std::make_shared<REOrderedDictionaryPair>();
+        pair->set(key, obj);
+        p->push_back(pair);
+    }];
+    if (keyComparator) {
+        REOrderedDictionaryKeySortFunctorWithBlock functor;
+        functor.comparator = keyComparator;
+        std::sort(_p->begin(), _p->end(), functor);
     }
     return self;
 }
@@ -401,29 +409,94 @@ NSString * _Nonnull const REOrderedDictionaryCoderKeyObjects =  @"REOrderedDicti
 
 @end
 
-#pragma mark - NSMutableOrderedDictionary
+#pragma mark - REMutableOrderedDictionary
 
-@implementation NSMutableOrderedDictionary
+@interface REMutableOrderedDictionary() {
+@private
+    pthread_mutex_t _mutex;
+}
 
-- (void) sortUsingKeySortFunction:(nullable NS_NOESCAPE REOrderedDictionaryKeyComparatorFunction) keyComparator
+@end
+
+@implementation REMutableOrderedDictionary
+
+#pragma mark - NSCopying
+
+- (nonnull id) copyWithZone:(nullable NSZone *) zone {
+    id res = nil;
+    pthread_mutex_lock(&_mutex);
+    res = [super copyWithZone:zone];
+    pthread_mutex_unlock(&_mutex);
+    return res;
+}
+
+#pragma mark - NSMutableCopying
+
+- (nonnull id) mutableCopyWithZone:(nullable NSZone *) zone {
+    id res = nil;
+    pthread_mutex_lock(&_mutex);
+    res = [super mutableCopyWithZone:zone];
+    pthread_mutex_unlock(&_mutex);
+    return res;
+}
+
+#pragma mark - NSCoding
+
+- (void) encodeWithCoder:(nonnull NSCoder *) aCoder {
+    pthread_mutex_lock(&_mutex);
+    [super encodeWithCoder:aCoder];
+    pthread_mutex_unlock(&_mutex);
+}
+
+#pragma mark - NSFastEnumeration
+
+- (NSUInteger) countByEnumeratingWithState:(nonnull NSFastEnumerationState *) state
+                                   objects:(id _Nullable __unsafe_unretained * _Nonnull) stackbuf
+                                     count:(NSUInteger) stackbufLength {
+    NSUInteger res = 0;
+    pthread_mutex_lock(&_mutex);
+    res = [super countByEnumeratingWithState:state objects:stackbuf count:stackbufLength];
+    pthread_mutex_unlock(&_mutex);
+    return res;
+}
+
+#pragma mark - Common
+
+- (NSUInteger) count {
+    NSUInteger res = 0;
+    pthread_mutex_lock(&_mutex);
+    res = [super count];
+    pthread_mutex_unlock(&_mutex);
+    return res;
+}
+
+#pragma mark - Mutating
+
+- (void) sortUsingKeySortFunction:(nonnull NS_NOESCAPE REOrderedDictionaryKeyComparatorFunction) keyComparator
                           context:(nullable void *) context {
-    if (keyComparator) {
-        REOrderedDictionaryKeySortFunctorWithCallback functor;
-        functor.comparator = keyComparator;
-        functor.context = context;
-        std::sort(_p->begin(), _p->end(), functor);
-    }
+#if defined(_DEBUG) || defined(DEBUG)
+    NSParameterAssert(keyComparator != nil);
+#endif
+    pthread_mutex_lock(&_mutex);
+    REOrderedDictionaryKeySortFunctorWithCallback functor;
+    functor.comparator = keyComparator;
+    functor.context = context;
+    std::sort(_p->begin(), _p->end(), functor);
+    pthread_mutex_unlock(&_mutex);
 }
 
-- (void) sortUsingKeySortBlock:(nullable NS_NOESCAPE REOrderedDictionaryKeyComparatorBlock) keyComparator {
-    if (keyComparator) {
-        REOrderedDictionaryKeySortFunctorWithBlock functor;
-        functor.comparator = keyComparator;
-        std::sort(_p->begin(), _p->end(), functor);
-    }
+- (void) sortUsingKeySortBlock:(nonnull NS_NOESCAPE REOrderedDictionaryKeyComparatorBlock) keyComparator {
+#if defined(_DEBUG) || defined(DEBUG)
+    NSParameterAssert(keyComparator != nil);
+#endif
+    pthread_mutex_lock(&_mutex);
+    REOrderedDictionaryKeySortFunctorWithBlock functor;
+    functor.comparator = keyComparator;
+    std::sort(_p->begin(), _p->end(), functor);
+    pthread_mutex_unlock(&_mutex);
 }
 
-static void NSMutableOrderedDictionarySetObjectForKey(REOrderedDictionaryPairList * p, id _Nullable o, id _Nonnull k) {
+static void REMutableOrderedDictionarySetObjectForKey(REOrderedDictionaryPairList * p, id _Nullable o, id _Nonnull k) {
     for (REOrderedDictionaryPairList::iterator it = p->begin(); it != p->end(); ++it) {
         REOrderedDictionaryPairPtr pair = *it;
         if ([(__bridge id)pair->key isEqual:k]) {
@@ -446,32 +519,130 @@ static void NSMutableOrderedDictionarySetObjectForKey(REOrderedDictionaryPairLis
 #if defined(_DEBUG) || defined(DEBUG)
     NSParameterAssert(key != nil);
 #endif
-    NSMutableOrderedDictionarySetObjectForKey(_p, object, key);
+    pthread_mutex_lock(&_mutex);
+    REMutableOrderedDictionarySetObjectForKey(_p, object, key);
+    pthread_mutex_unlock(&_mutex);
 }
 
 - (void) removeObjectForKey:(nonnull id) key {
 #if defined(_DEBUG) || defined(DEBUG)
     NSParameterAssert(key != nil);
 #endif
-    NSMutableOrderedDictionarySetObjectForKey(_p, nil, key);
+    pthread_mutex_lock(&_mutex);
+    REMutableOrderedDictionarySetObjectForKey(_p, nil, key);
+    pthread_mutex_unlock(&_mutex);
 }
 
 - (void) setObject:(nullable id) object forKeyedSubscript:(nonnull id) key {
 #if defined(_DEBUG) || defined(DEBUG)
     NSParameterAssert(key != nil);
 #endif
-    NSMutableOrderedDictionarySetObjectForKey(_p, object, key);
+    pthread_mutex_lock(&_mutex);
+    REMutableOrderedDictionarySetObjectForKey(_p, object, key);
+    pthread_mutex_unlock(&_mutex);
 }
 
-- (void) insertObject:(nullable id) object forKey:(nonnull id) key atIndex:(NSUInteger) index {
-#if defined(_DEBUG) || defined(DEBUG)
-    NSParameterAssert(object != nil && key != nil && index <= _p->size());
-#endif
-    REOrderedDictionaryPairPtr pair = std::make_shared<REOrderedDictionaryPair>();
-    pair->set(key, object);
-    REOrderedDictionaryPairList::iterator it = _p->begin() + index;
-    _p->insert(it, pair);
+#pragma mark - All keys and values
+
+- (nonnull NSArray *) allKeys {
+    NSArray * res = nil;
+    pthread_mutex_lock(&_mutex);
+    res = [super allKeys];
+    pthread_mutex_unlock(&_mutex);
+    return res;
 }
+
+- (nonnull NSArray *) allObjects {
+    NSArray * res = nil;
+    pthread_mutex_lock(&_mutex);
+    res = [super allObjects];
+    pthread_mutex_unlock(&_mutex);
+    return res;
+}
+
+#pragma mark - Subscripts
+
+- (nullable id) objectAtIndexedSubscript:(NSUInteger) index {
+    id res = nil;
+    pthread_mutex_lock(&_mutex);
+    res = [super objectAtIndexedSubscript:index];
+    pthread_mutex_unlock(&_mutex);
+    return res;
+}
+
+- (nullable id) objectForKeyedSubscript:(nonnull id) key {
+    id res = nil;
+    pthread_mutex_lock(&_mutex);
+    res = [super objectForKeyedSubscript:key];
+    pthread_mutex_unlock(&_mutex);
+    return res;
+}
+
+#pragma mark - Equality
+
+- (BOOL) isEqualToOrderedDictionary:(nonnull REOrderedDictionary *) orderedDictionary {
+    BOOL res = NO;
+    pthread_mutex_lock(&_mutex);
+    res = [super isEqualToOrderedDictionary:orderedDictionary];
+    pthread_mutex_unlock(&_mutex);
+    return res;
+}
+
+- (BOOL) isEqualToDictionary:(nonnull NSDictionary *) dictionary {
+    BOOL res = NO;
+    pthread_mutex_lock(&_mutex);
+    res = [super isEqualToDictionary:dictionary];
+    pthread_mutex_unlock(&_mutex);
+    return res;
+}
+
+- (BOOL) isEqual:(id) object {
+    BOOL res = NO;
+    pthread_mutex_lock(&_mutex);
+    res = [super isEqual:object];
+    pthread_mutex_unlock(&_mutex);
+    return res;
+}
+
+#pragma mark - Initialization
+
+- (nonnull instancetype) init {
+    self = [super init];
+    pthread_mutexattr_t attr;
+    int res = pthread_mutexattr_init(&attr);
+    assert(res == 0);
+    res = pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+    assert(res == 0);
+    pthread_mutex_init(&_mutex, &attr);
+    pthread_mutexattr_destroy(&attr);
+    return self;
+}
+
+- (void) dealloc {
+    pthread_mutex_destroy(&_mutex);
+}
+
+#pragma mark - Debug description
+
+#if defined(_DEBUG) || defined(DEBUG)
+
+- (NSString *) description {
+    NSString * res = nil;
+    pthread_mutex_lock(&_mutex);
+    res = [super description];
+    pthread_mutex_unlock(&_mutex);
+    return res;
+}
+
+- (NSString *) debugDescription {
+    NSString * res = nil;
+    pthread_mutex_lock(&_mutex);
+    res = [super debugDescription];
+    pthread_mutex_unlock(&_mutex);
+    return res;
+}
+
+#endif
 
 @end
 
@@ -483,8 +654,8 @@ static void NSMutableOrderedDictionarySetObjectForKey(REOrderedDictionaryPairLis
     return [[REOrderedDictionary alloc] initWithDictionary:self usingKeySortFunction:NULL context:NULL];
 }
 
-- (nonnull NSMutableOrderedDictionary *) mutableOrderedCopy {
-    return [[NSMutableOrderedDictionary alloc] initWithDictionary:self usingKeySortFunction:NULL context:NULL];
+- (nonnull REMutableOrderedDictionary *) mutableOrderedCopy {
+    return [[REMutableOrderedDictionary alloc] initWithDictionary:self usingKeySortFunction:NULL context:NULL];
 }
 
 @end

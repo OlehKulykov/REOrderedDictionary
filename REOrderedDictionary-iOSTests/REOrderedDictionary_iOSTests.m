@@ -42,16 +42,8 @@ static NSInteger compareNumberKeys1(NSNumber * k1, NSNumber * k2, void * _Nullab
     return YES;
 }
 
-- (void) testInsert {
-    NSMutableOrderedDictionary * d = [[NSMutableOrderedDictionary alloc] init];
-    [d insertObject:@"#0" forKey:@(0) atIndex:0];
-    [d insertObject:@"#1" forKey:@(1) atIndex:1];
-    [d insertObject:@"#-1" forKey:@(-1) atIndex:0];
-    NSLog(@"%@", d);
-}
-
 - (void) testWritableSubscripts {
-    NSMutableOrderedDictionary * d = [[NSMutableOrderedDictionary alloc] init];
+    REMutableOrderedDictionary * d = [[REMutableOrderedDictionary alloc] init];
     
     XCTAssertNil(d[@(1)]);
     d[@(1)] = @"#1";
@@ -72,7 +64,7 @@ static NSInteger compareNumberKeys1(NSNumber * k1, NSNumber * k2, void * _Nullab
                                      @(4) : @"#4",
                                      @(1) : @"#1",
                                      };
-    NSMutableOrderedDictionary * d = [[NSMutableOrderedDictionary alloc] initWithDictionary:unsortedDict
+    REMutableOrderedDictionary * d = [[REMutableOrderedDictionary alloc] initWithDictionary:unsortedDict
                                                                        usingKeySortFunction:compareNumberKeys1
                                                                                     context:NULL];
     XCTAssertTrue([self isSortedByNumberKeys:d]);
@@ -100,7 +92,7 @@ static NSInteger compareNumberKeys1(NSNumber * k1, NSNumber * k2, void * _Nullab
                                      @(4) : @"#4",
                                      @(1) : @"#1",
                                      };
-    NSMutableOrderedDictionary * d = [[NSMutableOrderedDictionary alloc] initWithDictionary:unsortedDict
+    REMutableOrderedDictionary * d = [[REMutableOrderedDictionary alloc] initWithDictionary:unsortedDict
                                                                        usingKeySortFunction:compareNumberKeys1
                                                                                     context:NULL];
     XCTAssertTrue([self isSortedByNumberKeys:d]);
@@ -129,36 +121,36 @@ static NSInteger compareNumberKeys1(NSNumber * k1, NSNumber * k2, void * _Nullab
 }
 
 - (void) testSortByKeys {
-    XCTAssertTrue([self isSortedByNumberKeys:[[NSMutableOrderedDictionary alloc] init]]);
+    XCTAssertTrue([self isSortedByNumberKeys:[[REMutableOrderedDictionary alloc] init]]);
     
     NSDictionary * unsortedDict = @{ @(2) : @"#2",
                                      @(8) : @"#8",
                                      @(4) : @"#4",
                                      @(1) : @"#1",
                                      };
-    NSMutableOrderedDictionary * d = [[NSMutableOrderedDictionary alloc] initWithDictionary:unsortedDict
+    REMutableOrderedDictionary * d = [[REMutableOrderedDictionary alloc] initWithDictionary:unsortedDict
                                                                        usingKeySortFunction:compareNumberKeys1
                                                                                     context:NULL];
     XCTAssertTrue([self isSortedByNumberKeys:d]);
     
-    d = [[NSMutableOrderedDictionary alloc] initWithDictionary:unsortedDict
+    d = [[REMutableOrderedDictionary alloc] initWithDictionary:unsortedDict
                                           usingKeySortFunction:nil
                                                        context:NULL];
-    [(NSMutableOrderedDictionary *)d sortUsingKeySortFunction:compareNumberKeys1
+    [(REMutableOrderedDictionary *)d sortUsingKeySortFunction:compareNumberKeys1
                                                       context:NULL];
     XCTAssertTrue([self isSortedByNumberKeys:d]);
     
     
-    d = [[NSMutableOrderedDictionary alloc] initWithDictionary:unsortedDict
+    d = [[REMutableOrderedDictionary alloc] initWithDictionary:unsortedDict
                                              usingKeySortBlock:^NSInteger(NSNumber * _Nullable n1, NSNumber * _Nullable n2) {
                                                  return [n1 compare:n2];
                                              }];
     XCTAssertTrue([self isSortedByNumberKeys:d]);
     
-    d = [[NSMutableOrderedDictionary alloc] initWithDictionary:unsortedDict
+    d = [[REMutableOrderedDictionary alloc] initWithDictionary:unsortedDict
                                           usingKeySortFunction:nil
                                                        context:NULL];
-    [(NSMutableOrderedDictionary *)d sortUsingKeySortBlock:^NSInteger(NSNumber * _Nullable n1, NSNumber * _Nullable n2) {
+    [(REMutableOrderedDictionary *)d sortUsingKeySortBlock:^NSInteger(NSNumber * _Nullable n1, NSNumber * _Nullable n2) {
         return [n1 compare:n2];
     }];
     XCTAssertTrue([self isSortedByNumberKeys:d]);
@@ -202,11 +194,11 @@ static NSInteger compareNumberKeys1(NSNumber * k1, NSNumber * k2, void * _Nullab
 
 - (void) testMutableCopy {
     REOrderedDictionary * d1 = [[REOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), nil];
-    NSMutableOrderedDictionary * d2 = [d1 mutableCopy];
+    REMutableOrderedDictionary * d2 = [d1 mutableCopy];
     XCTAssertNotNil(d1);
     XCTAssertNotNil(d2);
     XCTAssertTrue(d2.count == d1.count);
-    XCTAssertTrue([d2 isKindOfClass:[NSMutableOrderedDictionary class]]);
+    XCTAssertTrue([d2 isKindOfClass:[REMutableOrderedDictionary class]]);
     d1 = nil;
     d2 = nil;
 }
