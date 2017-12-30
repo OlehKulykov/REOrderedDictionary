@@ -23,7 +23,11 @@
 
 #import "NSOrderedDictionary.h"
 
-#include <list>
+// std::sort
+#include <algorithm>
+
+// std::vector
+#include <vector>
 
 class NSOrderedDictionaryPair {
 public:
@@ -41,19 +45,16 @@ public:
         obj = CFBridgingRetain(o);
     }
     
-    NSOrderedDictionaryPair() : key(NULL), obj(NULL) {
-        NSLog(@"NSOrderedDictionaryPair()");
-    }
+    NSOrderedDictionaryPair() : key(NULL), obj(NULL) { }
     
     ~NSOrderedDictionaryPair() {
-        NSLog(@"~NSOrderedDictionaryPair(), { %@ : %@ }", (__bridge id)key, (__bridge id)obj);
         CFBridgingRelease(key);
         CFBridgingRelease(obj);
     }
 };
 
 typedef std::shared_ptr<NSOrderedDictionaryPair> NSOrderedDictionaryPairPtr;
-typedef std::list<NSOrderedDictionaryPairPtr> NSOrderedDictionaryPairList;
+typedef std::vector<NSOrderedDictionaryPairPtr> NSOrderedDictionaryPairList;
 
 struct NSOrderedDictionaryKeySortFunctorWithCallback {
     void * context;
@@ -85,7 +86,6 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
 #pragma mark - NSCopying
 
 - (nonnull id) copyWithZone:(nullable NSZone *) zone {
-    NSLog(@"copyWithZone:");
     NSOrderedDictionary * d = [[[self class] allocWithZone:zone] init];
     for (NSOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
         d->_p->push_back(*it);
@@ -96,7 +96,6 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
 #pragma mark - NSMutableCopying
 
 - (nonnull id) mutableCopyWithZone:(nullable NSZone *) zone {
-    NSLog(@"mutableCopyWithZone:");
     NSOrderedDictionary * d = [[NSMutableOrderedDictionary alloc] init];
     for (NSOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
         d->_p->push_back(*it);
@@ -152,15 +151,9 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
     if (countOfItemsAlreadyEnumerated < size) {
         state->itemsPtr = stackbuf;
         
-        NSOrderedDictionaryPairList::iterator it = _p->begin();
-        std::advance(it, countOfItemsAlreadyEnumerated);
-        
         while ((countOfItemsAlreadyEnumerated < size) && (count < stackbufLength)) {
-            NSOrderedDictionaryPairPtr pair = *it;
-            stackbuf[count] = (__bridge id)pair->key;
-            it++;
-            countOfItemsAlreadyEnumerated++;
-            count++;
+            NSOrderedDictionaryPairPtr pair = (*_p)[countOfItemsAlreadyEnumerated++];
+            stackbuf[count++] = (__bridge id)pair->key;
         }
     }
     state->state = countOfItemsAlreadyEnumerated;
@@ -172,21 +165,75 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
 - (nullable id) objectAtIndexedSubscript:(NSUInteger) index {
     const size_t size = _p->size();
     if (index < size) {
-        NSOrderedDictionaryPairList::iterator it = _p->begin();
-        std::advance(it, index);
-        return (__bridge id)(*it)->obj;
+        NSOrderedDictionaryPairPtr pair = (*_p)[index];
+        return (__bridge id)pair->obj;
     }
     return nil;
 }
 
 - (nullable id) objectForKeyedSubscript:(nonnull id) key {
+#if defined(_DEBUG) || defined(DEBUG)
     NSParameterAssert(key != nil);
+#endif
     for (NSOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
         if ([(__bridge id)(*it)->key isEqual:key]) {
             return (__bridge id)(*it)->obj;
         }
     }
     return nil;
+}
+
+#pragma mark - Equality
+
+- (BOOL) isEqualToOrderedDictionary:(nonnull NSOrderedDictionary *) orderedDictionary {
+#if defined(_DEBUG) || defined(DEBUG)
+    NSParameterAssert(orderedDictionary != nil);
+    NSAssert([orderedDictionary isKindOfClass:[NSOrderedDictionary class]], @"Unsupported 'orderedDictionary' class: %@", NSStringFromClass([orderedDictionary class]));
+#endif
+    const size_t s1 = _p->size();
+    const size_t s2 = orderedDictionary->_p->size();
+    if (s1 == s2) {
+        NSOrderedDictionaryPairList::iterator it1 = _p->begin();
+        NSOrderedDictionaryPairList::iterator it2 = orderedDictionary->_p->begin();
+        while (it1 != _p->end() && it2 != orderedDictionary->_p->end()) {
+            if (![(__bridge id)(*it1)->key isEqual:(__bridge id)(*it2)->key] ||
+                ![(__bridge id)(*it1)->obj isEqual:(__bridge id)(*it2)->obj]) {
+                return NO;
+            }
+            ++it1;
+            ++it2;
+        }
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL) isEqualToDictionary:(nonnull NSDictionary *) dictionary {
+#if defined(_DEBUG) || defined(DEBUG)
+    NSParameterAssert(dictionary != nil);
+    NSAssert([dictionary isKindOfClass:[NSDictionary class]], @"Unsupported 'dictionary' class: %@", NSStringFromClass([dictionary class]));
+#endif
+    const size_t s1 = _p->size();
+    const size_t s2 = [dictionary count];
+    if (s1 == s2) {
+        for (NSOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
+            id obj = [dictionary objectForKey:(__bridge id)(*it)->key];
+            if (!obj || ![obj isEqual:(__bridge id)(*it)->obj]) {
+                return NO;
+            }
+        }
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL) isEqual:(id) object {
+    if ([object isKindOfClass:[NSOrderedDictionary class]]) {
+        return [self isEqualToOrderedDictionary:(NSOrderedDictionary *)object];
+    } else if ([object isKindOfClass:[NSDictionary class]]) {
+        return [self isEqualToDictionary:(NSDictionary *)object];
+    }
+    return [super isEqual:object];
 }
 
 #pragma mark - All keys and values
@@ -222,7 +269,6 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
 }
 
 - (nonnull instancetype) init {
-    NSLog(@"init");
     self = [super init];
     if (self) {
         _p = new NSOrderedDictionaryPairList();
@@ -232,7 +278,6 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
 }
 
 - (nonnull instancetype) initWithObjectsAndKeys:(nullable id) firstObject, ... {
-    NSLog(@"initWithObjectsAndKeys:");
     self = [self init];
     if (self && firstObject) {
         id key = firstObject, obj = nil;
@@ -286,7 +331,7 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
             NSOrderedDictionaryKeySortFunctorWithCallback functor;
             functor.comparator = keyComparator;
             functor.context = context;
-            _p->sort(functor);
+            std::sort(_p->begin(), _p->end(), functor);
         }
     }
     return self;
@@ -296,7 +341,9 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
                           usingKeySortBlock:(nullable NS_NOESCAPE NSOrderedDictionaryKeyComparatorBlock) keyComparator {
     self = [self init];
     if (self) {
+#if defined(_DEBUG) || defined(DEBUG)
         NSParameterAssert(dictionary != nil);
+#endif
         NSOrderedDictionaryPairList * p = _p;
         [dictionary enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
             NSOrderedDictionaryPairPtr pair = std::make_shared<NSOrderedDictionaryPair>();
@@ -306,14 +353,13 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
         if (keyComparator) {
             NSOrderedDictionaryKeySortFunctorWithBlock functor;
             functor.comparator = keyComparator;
-            _p->sort(functor);
+            std::sort(_p->begin(), _p->end(), functor);
         }
     }
     return self;
 }
 
 - (void) dealloc {
-    NSLog(@"dealloc");
     delete _p;
 }
 
@@ -354,7 +400,7 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
         NSOrderedDictionaryKeySortFunctorWithCallback functor;
         functor.comparator = keyComparator;
         functor.context = context;
-        _p->sort(functor);
+        std::sort(_p->begin(), _p->end(), functor);
     }
 }
 
@@ -362,15 +408,16 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
     if (keyComparator) {
         NSOrderedDictionaryKeySortFunctorWithBlock functor;
         functor.comparator = keyComparator;
-        _p->sort(functor);
+        std::sort(_p->begin(), _p->end(), functor);
     }
 }
 
 static void NSMutableOrderedDictionarySetObjectForKey(NSOrderedDictionaryPairList * p, id _Nullable o, id _Nonnull k) {
     for (NSOrderedDictionaryPairList::iterator it = p->begin(); it != p->end(); ++it) {
-        if ([(__bridge id)(*it)->key isEqual:k]) {
+        NSOrderedDictionaryPairPtr pair = *it;
+        if ([(__bridge id)pair->key isEqual:k]) {
             if (o) {
-                (*it)->resetObj(o);
+                pair->resetObj(o);
             } else {
                 p->erase(it);
             }
@@ -385,26 +432,33 @@ static void NSMutableOrderedDictionarySetObjectForKey(NSOrderedDictionaryPairLis
 }
 
 - (void) setObject:(nullable id) object forKey:(nonnull id) key {
+#if defined(_DEBUG) || defined(DEBUG)
     NSParameterAssert(key != nil);
+#endif
     NSMutableOrderedDictionarySetObjectForKey(_p, object, key);
 }
 
 - (void) removeObjectForKey:(nonnull id) key {
+#if defined(_DEBUG) || defined(DEBUG)
     NSParameterAssert(key != nil);
+#endif
     NSMutableOrderedDictionarySetObjectForKey(_p, nil, key);
 }
 
 - (void) setObject:(nullable id) object forKeyedSubscript:(nonnull id) key {
+#if defined(_DEBUG) || defined(DEBUG)
     NSParameterAssert(key != nil);
+#endif
     NSMutableOrderedDictionarySetObjectForKey(_p, object, key);
 }
 
 - (void) insertObject:(nullable id) object forKey:(nonnull id) key atIndex:(NSUInteger) index {
+#if defined(_DEBUG) || defined(DEBUG)
     NSParameterAssert(object != nil && key != nil && index <= _p->size());
-    NSOrderedDictionaryPairList::iterator it = _p->begin();
-    std::advance(it, index);
+#endif
     NSOrderedDictionaryPairPtr pair = std::make_shared<NSOrderedDictionaryPair>();
     pair->set(key, object);
+    NSOrderedDictionaryPairList::iterator it = _p->begin() + index;
     _p->insert(it, pair);
 }
 

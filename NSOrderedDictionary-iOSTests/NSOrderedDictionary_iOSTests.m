@@ -180,6 +180,26 @@ static NSInteger compareNumberKeys1(NSNumber * k1, NSNumber * k2, void * _Nullab
     d2 = nil;
 }
 
+- (void) testEqual {
+    NSOrderedDictionary * d1 = [[NSOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), nil];
+    NSOrderedDictionary * d2 = [[NSOrderedDictionary alloc] initWithObjectsAndKeys:nil];
+    XCTAssertFalse([d1 isEqualToOrderedDictionary:d2]);
+    
+    d2 = [[NSOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), nil];
+    XCTAssertTrue([d1 isEqualToOrderedDictionary:d2]);
+    
+    d2 = [[NSOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), @"#1", @(1), nil];
+    XCTAssertFalse([d1 isEqualToOrderedDictionary:d2]);
+    
+    XCTAssertFalse([d1 isEqualToDictionary:@{}]);
+    XCTAssertTrue([d1 isEqualToDictionary:@{ @(0) : @"#0" }]);
+    XCTAssertFalse([d1 isEqualToDictionary:@{ @(0) : @"#1" }]);
+    XCTAssertFalse([d1 isEqualToDictionary:@{ @(1) : @"#0" }]);
+    XCTAssertFalse([d1 isEqualToDictionary:@{ @(1) : @"#1" }]);
+    NSDictionary * dict = @{ @(0) : @"#0", @(1) : @"#1" };
+    XCTAssertFalse([d1 isEqualToDictionary:dict]);
+}
+
 - (void) testMutableCopy {
     NSOrderedDictionary * d1 = [[NSOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), nil];
     NSMutableOrderedDictionary * d2 = [d1 mutableCopy];

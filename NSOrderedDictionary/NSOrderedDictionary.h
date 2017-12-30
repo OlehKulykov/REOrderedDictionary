@@ -61,6 +61,12 @@ typedef NSInteger (*NSOrderedDictionaryKeyComparatorFunction)(id _Nullable, id _
 
 - (nullable ObjectType) objectForKeyedSubscript:(nonnull id) key;
 
+#pragma mark - Equality
+
+- (BOOL) isEqualToOrderedDictionary:(nonnull NSOrderedDictionary *) orderedDictionary;
+
+- (BOOL) isEqualToDictionary:(nonnull NSDictionary *) dictionary;
+
 @end
 
 #pragma mark - NSMutableOrderedDictionary
