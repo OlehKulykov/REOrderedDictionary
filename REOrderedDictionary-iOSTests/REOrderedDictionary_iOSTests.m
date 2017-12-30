@@ -157,12 +157,14 @@ static NSInteger compareNumberKeys1(NSNumber * k1, NSNumber * k2, void * _Nullab
 }
 
 - (void) testCodingDecoding {
-    REOrderedDictionary * d1 = [[REOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), @"#1", @(1), nil];
+    REOrderedDictionary * d1 = [[REMutableOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), @"#1", @(1), nil];
     NSMutableData * data = [[NSMutableData alloc] init];
     NSKeyedArchiver * coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    coder.outputFormat = NSPropertyListXMLFormat_v1_0;
     [d1 encodeWithCoder:coder];
     [coder finishEncoding];
     NSKeyedUnarchiver * decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSLog(@"Archiver data string: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
     REOrderedDictionary * d2 = [[REOrderedDictionary alloc] initWithCoder:decoder];
     XCTAssertNotNil(d1);
     XCTAssertNotNil(d2);

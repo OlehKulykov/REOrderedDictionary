@@ -87,6 +87,7 @@ typedef NSInteger (*REOrderedDictionaryKeyComparatorFunction)(id _Nullable, id _
 /**
  @param key Nonnull key of requested object.
  @return Object for key. If key not found than returns nil.
+ @note Find coresponding pair using key's `isEqual:` method.
  @code
  REOrderedDictionary * orderedDictionary = ...;
  id objectAtIndex = orderedDictionary[@"myKey"];
@@ -151,7 +152,7 @@ typedef NSInteger (*REOrderedDictionaryKeyComparatorFunction)(id _Nullable, id _
 /**
  @brief Initialize ordered dictionary instance with NSDictionary with possibility to sort by key.
  @param dictionary The source dictionary with initial keys and object.
- @param keyComparator Optional comparator block. Provide `nil` to ignore sorting.
+ @param keyComparator Optional nonescaping comparator block. Provide `nil` to ignore sorting.
  */
 - (nonnull instancetype) initWithDictionary:(nonnull NSDictionary *) dictionary
                           usingKeySortBlock:(nullable NS_NOESCAPE REOrderedDictionaryKeyComparatorBlock) keyComparator;
@@ -176,7 +177,7 @@ typedef NSInteger (*REOrderedDictionaryKeyComparatorFunction)(id _Nullable, id _
 
 /**
  @brief Sort mutable ordered dictionary by key using comparator block.
- @param keyComparator The comparator block.
+ @param keyComparator The nonescaping comparator block.
  */
 - (void) sortUsingKeySortBlock:(nonnull NS_NOESCAPE REOrderedDictionaryKeyComparatorBlock) keyComparator;
 
