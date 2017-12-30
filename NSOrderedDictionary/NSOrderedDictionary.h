@@ -23,36 +23,96 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ @brief Coder/decoder key for sorted keys array.
+ @note Each key at position conforms to value at same position.
+ */
 FOUNDATION_EXPORT NSString * _Nonnull const NSOrderedDictionaryCoderKeyKeys;
 
+/**
+ @brief Coder/decoder key for sorted objects array.
+ @note Each value at position conforms to key at same position.
+ */
 FOUNDATION_EXPORT NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects;
 
+/**
+ @brief Key comparator block type for dictionary sorting methods.
+ @return `NSOrderedAscending` if left key is smaller than the right key, otherwise any value.
+ */
 typedef NSInteger (^NSOrderedDictionaryKeyComparatorBlock)(id _Nullable, id _Nullable);
 
+/**
+ @brief Key comparator function callback for dictionary sorting methods.
+ @return `NSOrderedAscending` if left key is smaller than the right key, otherwise any value.
+ @note Using comparator function you can provide any context.
+ */
 typedef NSInteger (*NSOrderedDictionaryKeyComparatorFunction)(id _Nullable, id _Nullable, void * _Nullable);
 
+/**
+ @brief Key/object container that stores ordered key/object pairs by key.
+ @note Order can be defined by adding/inserting order or using sort methods.
+ */
 @interface NSOrderedDictionary<__covariant KeyType, __covariant ObjectType> : NSObject <NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration>
 
+/**
+ @return Returns number of key/object pairs.
+ */
 @property (nonatomic, assign, readonly) NSUInteger count;
 
+/**
+ @brief Initialize empty ordered dictionary instance.
+ */
 - (nonnull instancetype) init NS_DESIGNATED_INITIALIZER;
 
+/**
+ @brief Initialize ordered dictionary instance with initial object/key values.
+ @param firstObject The first nullable object argument.
+ @note Provide `nil` at the end of object/key values.
+ @code
+ [[NSOrderedDictionary alloc] initWithObjectsAndKeys:@"some object", @(0), nil];
+ @endcode
+ */
 - (nonnull instancetype) initWithObjectsAndKeys:(nullable id) firstObject, ... NS_REQUIRES_NIL_TERMINATION;
 
+/**
+ @brief Initialize ordered dictionary instance with initial arrays of objects and keys.
+ @code
+ [[NSOrderedDictionary alloc] initWithObjects:@[ @"some object" ] andKeys:@[ @(0) ]];
+ @endcode
+ */
 - (nonnull instancetype) initWithObjects:(nonnull NSArray<ObjectType> *) allObjects
                                  andKeys:(nonnull NSArray<KeyType> *) allKeys;
 
+/**
+ @brief Initialize ordered dictionary instance with NS dictionary with possibility to sort by key.
+ @param dictionary The source dictionary with initial keys and object.
+ @param keyComparator Optional comparator function. Provide `nil` to ignore sorting.
+ @param context Optional context for comparator function, of course if comparator exists.
+ */
 - (nonnull instancetype) initWithDictionary:(nonnull NSDictionary *) dictionary
                        usingKeySortFunction:(nullable NS_NOESCAPE NSOrderedDictionaryKeyComparatorFunction) keyComparator
                                     context:(nullable void *) context;
 
+/**
+ @brief Initialize ordered dictionary instance with NS dictionary with possibility to sort by key.
+ @param dictionary The source dictionary with initial keys and object.
+ @param keyComparator Optional comparator block. Provide `nil` to ignore sorting.
+ */
 - (nonnull instancetype) initWithDictionary:(nonnull NSDictionary *) dictionary
                           usingKeySortBlock:(nullable NS_NOESCAPE NSOrderedDictionaryKeyComparatorBlock) keyComparator;
 
 #pragma mark - All keys and values
 
+/**
+ @return Array with all keys.
+ @note Each key at position conforms to object at position returned by `allObjects` method.
+ */
 - (nonnull NSArray<KeyType> *) allKeys;
 
+/**
+ @return Array with all objects.
+ @note Each object at position conforms to key at position returned by `allKeys` method.
+ */
 - (nonnull NSArray<ObjectType> *) allObjects;
 
 #pragma mark - Subscripts

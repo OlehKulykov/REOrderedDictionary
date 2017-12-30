@@ -59,14 +59,16 @@ typedef std::vector<NSOrderedDictionaryPairPtr> NSOrderedDictionaryPairList;
 struct NSOrderedDictionaryKeySortFunctorWithCallback {
     void * context;
     NSOrderedDictionaryKeyComparatorFunction comparator;
-    bool operator()(const NSOrderedDictionaryPairPtr & a, const NSOrderedDictionaryPairPtr & b) {
+    // copy srared ptr.
+    bool operator()(const NSOrderedDictionaryPairPtr a, const NSOrderedDictionaryPairPtr b) {
         return (comparator((__bridge id)a->key, (__bridge id)b->key, context) == NSOrderedAscending);
     }
 };
 
 struct NSOrderedDictionaryKeySortFunctorWithBlock {
     NSOrderedDictionaryKeyComparatorBlock comparator;
-    bool operator()(const NSOrderedDictionaryPairPtr & a, const NSOrderedDictionaryPairPtr & b) {
+    // copy srared ptr.
+    bool operator()(const NSOrderedDictionaryPairPtr a, const NSOrderedDictionaryPairPtr b) {
         return (comparator((__bridge id)a->key, (__bridge id)b->key) == NSOrderedAscending);
     }
 };
@@ -88,7 +90,8 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
 - (nonnull id) copyWithZone:(nullable NSZone *) zone {
     NSOrderedDictionary * d = [[[self class] allocWithZone:zone] init];
     for (NSOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
-        d->_p->push_back(*it);
+        NSOrderedDictionaryPairPtr pair = *it;
+        d->_p->push_back(pair);
     }
     return d;
 }
@@ -98,7 +101,8 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
 - (nonnull id) mutableCopyWithZone:(nullable NSZone *) zone {
     NSOrderedDictionary * d = [[NSMutableOrderedDictionary alloc] init];
     for (NSOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
-        d->_p->push_back(*it);
+        NSOrderedDictionaryPairPtr pair = *it;
+        d->_p->push_back(pair);
     }
     return d;
 }
@@ -112,8 +116,9 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
         NSMutableArray * allKeys = [NSMutableArray arrayWithCapacity:count];
         NSMutableArray * allObjs = [NSMutableArray arrayWithCapacity:count];
         for (NSOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
-            [allKeys addObject:(__bridge id)(*it)->key];
-            [allObjs addObject:(__bridge id)(*it)->obj];
+            NSOrderedDictionaryPairPtr pair = *it;
+            [allKeys addObject:(__bridge id)pair->key];
+            [allObjs addObject:(__bridge id)pair->obj];
         }
         keys = allKeys;
         objs = allObjs;
@@ -176,8 +181,9 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
     NSParameterAssert(key != nil);
 #endif
     for (NSOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
-        if ([(__bridge id)(*it)->key isEqual:key]) {
-            return (__bridge id)(*it)->obj;
+        NSOrderedDictionaryPairPtr pair = *it;
+        if ([(__bridge id)pair->key isEqual:key]) {
+            return (__bridge id)pair->obj;
         }
     }
     return nil;
@@ -196,8 +202,9 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
         NSOrderedDictionaryPairList::iterator it1 = _p->begin();
         NSOrderedDictionaryPairList::iterator it2 = orderedDictionary->_p->begin();
         while (it1 != _p->end() && it2 != orderedDictionary->_p->end()) {
-            if (![(__bridge id)(*it1)->key isEqual:(__bridge id)(*it2)->key] ||
-                ![(__bridge id)(*it1)->obj isEqual:(__bridge id)(*it2)->obj]) {
+            NSOrderedDictionaryPairPtr pair1 = *it1, pair2 = *it2;
+            if (![(__bridge id)pair1->key isEqual:(__bridge id)pair2->key] ||
+                ![(__bridge id)pair1->obj isEqual:(__bridge id)pair2->obj]) {
                 return NO;
             }
             ++it1;
@@ -217,8 +224,9 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
     const size_t s2 = [dictionary count];
     if (s1 == s2) {
         for (NSOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
-            id obj = [dictionary objectForKey:(__bridge id)(*it)->key];
-            if (!obj || ![obj isEqual:(__bridge id)(*it)->obj]) {
+            NSOrderedDictionaryPairPtr pair = *it;
+            id obj = [dictionary objectForKey:(__bridge id)pair->key];
+            if (!obj || ![obj isEqual:(__bridge id)pair->obj]) {
                 return NO;
             }
         }
@@ -243,7 +251,8 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
     if (count > 0) {
         NSMutableArray * values = [NSMutableArray arrayWithCapacity:count];
         for (NSOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
-            [values addObject:(__bridge id)(*it)->key];
+            NSOrderedDictionaryPairPtr pair = *it;
+            [values addObject:(__bridge id)pair->key];
         }
         return values;
     }
@@ -255,7 +264,8 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
     if (count > 0) {
         NSMutableArray * objects = [NSMutableArray arrayWithCapacity:count];
         for (NSOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
-            [objects addObject:(__bridge id)(*it)->obj];
+            NSOrderedDictionaryPairPtr pair = *it;
+            [objects addObject:(__bridge id)pair->obj];
         }
         return objects;
     }
@@ -375,11 +385,12 @@ NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects =  @"NSOrderedDicti
     NSMutableString * str = [NSMutableString stringWithCapacity:128];
     [str appendString:@"{"];
     for (NSOrderedDictionaryPairList::iterator it = _p->begin(); it != _p->end(); ++it) {
-        id obj = (__bridge id)(*it)->obj;
+        NSOrderedDictionaryPairPtr pair = *it;
+        id obj = (__bridge id)pair->obj;
         if ([obj isKindOfClass:[NSString class]]) {
-            [str appendFormat:@"\n    %@ = \"%@\";", (__bridge id)(*it)->key, obj];
+            [str appendFormat:@"\n    %@ = \"%@\";", (__bridge id)pair->key, obj];
         } else {
-            [str appendFormat:@"\n    %@ = %@;", (__bridge id)(*it)->key, obj];
+            [str appendFormat:@"\n    %@ = %@;", (__bridge id)pair->key, obj];
         }
     }
     [str appendString:@"\n}"];
