@@ -27,32 +27,32 @@
  @brief Coder/decoder key for sorted keys array.
  @note Each key at position conforms to value at same position.
  */
-FOUNDATION_EXPORT NSString * _Nonnull const NSOrderedDictionaryCoderKeyKeys;
+FOUNDATION_EXPORT NSString * _Nonnull const REOrderedDictionaryCoderKeyKeys;
 
 /**
  @brief Coder/decoder key for sorted objects array.
  @note Each value at position conforms to key at same position.
  */
-FOUNDATION_EXPORT NSString * _Nonnull const NSOrderedDictionaryCoderKeyObjects;
+FOUNDATION_EXPORT NSString * _Nonnull const REOrderedDictionaryCoderKeyObjects;
 
 /**
  @brief Key comparator block type for dictionary sorting methods.
  @return `NSOrderedAscending` if left key is smaller than the right key, otherwise any value.
  */
-typedef NSInteger (^NSOrderedDictionaryKeyComparatorBlock)(id _Nullable, id _Nullable);
+typedef NSInteger (^REOrderedDictionaryKeyComparatorBlock)(id _Nullable, id _Nullable);
 
 /**
  @brief Key comparator function callback for dictionary sorting methods.
  @return `NSOrderedAscending` if left key is smaller than the right key, otherwise any value.
  @note Using comparator function you can provide any context.
  */
-typedef NSInteger (*NSOrderedDictionaryKeyComparatorFunction)(id _Nullable, id _Nullable, void * _Nullable);
+typedef NSInteger (*REOrderedDictionaryKeyComparatorFunction)(id _Nullable, id _Nullable, void * _Nullable);
 
 /**
  @brief Key/object container that stores ordered key/object pairs by key.
  @note Order can be defined by adding/inserting order or using sort methods.
  */
-@interface NSOrderedDictionary<__covariant KeyType, __covariant ObjectType> : NSObject <NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration>
+@interface REOrderedDictionary<__covariant KeyType, __covariant ObjectType> : NSObject <NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration>
 
 /**
  @return Returns number of key/object pairs.
@@ -69,7 +69,7 @@ typedef NSInteger (*NSOrderedDictionaryKeyComparatorFunction)(id _Nullable, id _
  @param firstObject The first nullable object argument.
  @note Provide `nil` at the end of object/key values.
  @code
- [[NSOrderedDictionary alloc] initWithObjectsAndKeys:@"some object", @(0), nil];
+ [[REOrderedDictionary alloc] initWithObjectsAndKeys:@"some object", @(0), nil];
  @endcode
  */
 - (nonnull instancetype) initWithObjectsAndKeys:(nullable id) firstObject, ... NS_REQUIRES_NIL_TERMINATION;
@@ -77,7 +77,7 @@ typedef NSInteger (*NSOrderedDictionaryKeyComparatorFunction)(id _Nullable, id _
 /**
  @brief Initialize ordered dictionary instance with initial arrays of objects and keys.
  @code
- [[NSOrderedDictionary alloc] initWithObjects:@[ @"some object" ] andKeys:@[ @(0) ]];
+ [[REOrderedDictionary alloc] initWithObjects:@[ @"some object" ] andKeys:@[ @(0) ]];
  @endcode
  */
 - (nonnull instancetype) initWithObjects:(nonnull NSArray<ObjectType> *) allObjects
@@ -90,7 +90,7 @@ typedef NSInteger (*NSOrderedDictionaryKeyComparatorFunction)(id _Nullable, id _
  @param context Optional context for comparator function, of course if comparator exists.
  */
 - (nonnull instancetype) initWithDictionary:(nonnull NSDictionary *) dictionary
-                       usingKeySortFunction:(nullable NS_NOESCAPE NSOrderedDictionaryKeyComparatorFunction) keyComparator
+                       usingKeySortFunction:(nullable NS_NOESCAPE REOrderedDictionaryKeyComparatorFunction) keyComparator
                                     context:(nullable void *) context;
 
 /**
@@ -99,7 +99,7 @@ typedef NSInteger (*NSOrderedDictionaryKeyComparatorFunction)(id _Nullable, id _
  @param keyComparator Optional comparator block. Provide `nil` to ignore sorting.
  */
 - (nonnull instancetype) initWithDictionary:(nonnull NSDictionary *) dictionary
-                          usingKeySortBlock:(nullable NS_NOESCAPE NSOrderedDictionaryKeyComparatorBlock) keyComparator;
+                          usingKeySortBlock:(nullable NS_NOESCAPE REOrderedDictionaryKeyComparatorBlock) keyComparator;
 
 #pragma mark - All keys and values
 
@@ -123,7 +123,7 @@ typedef NSInteger (*NSOrderedDictionaryKeyComparatorFunction)(id _Nullable, id _
 
 #pragma mark - Equality
 
-- (BOOL) isEqualToOrderedDictionary:(nonnull NSOrderedDictionary *) orderedDictionary;
+- (BOOL) isEqualToOrderedDictionary:(nonnull REOrderedDictionary *) orderedDictionary;
 
 - (BOOL) isEqualToDictionary:(nonnull NSDictionary *) dictionary;
 
@@ -131,12 +131,12 @@ typedef NSInteger (*NSOrderedDictionaryKeyComparatorFunction)(id _Nullable, id _
 
 #pragma mark - NSMutableOrderedDictionary
 
-@interface NSMutableOrderedDictionary<KeyType, ObjectType> : NSOrderedDictionary<KeyType, ObjectType>
+@interface NSMutableOrderedDictionary<KeyType, ObjectType> : REOrderedDictionary<KeyType, ObjectType>
 
-- (void) sortUsingKeySortFunction:(nullable NS_NOESCAPE NSOrderedDictionaryKeyComparatorFunction) keyComparator
+- (void) sortUsingKeySortFunction:(nullable NS_NOESCAPE REOrderedDictionaryKeyComparatorFunction) keyComparator
                           context:(nullable void *) context;
 
-- (void) sortUsingKeySortBlock:(nullable NS_NOESCAPE NSOrderedDictionaryKeyComparatorBlock) keyComparator;
+- (void) sortUsingKeySortBlock:(nullable NS_NOESCAPE REOrderedDictionaryKeyComparatorBlock) keyComparator;
 
 - (void) removeObjectForKey:(nonnull KeyType) key;
 
@@ -157,9 +157,9 @@ typedef NSInteger (*NSOrderedDictionaryKeyComparatorFunction)(id _Nullable, id _
 
 #pragma mark - Extensions
 
-@interface NSDictionary (NSOrderedDictionary)
+@interface NSDictionary (REOrderedDictionary)
 
-- (nonnull NSOrderedDictionary *) orderedCopy;
+- (nonnull REOrderedDictionary *) orderedCopy;
 
 - (nonnull NSMutableOrderedDictionary *) mutableOrderedCopy;
 

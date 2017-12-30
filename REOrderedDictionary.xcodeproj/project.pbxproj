@@ -7,18 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E99603841FC6C284001FC540 /* NSOrderedDictionary_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E996037A1FC6C284001FC540 /* NSOrderedDictionary_iOS.framework */; };
-		E99603891FC6C284001FC540 /* NSOrderedDictionary_iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E99603881FC6C284001FC540 /* NSOrderedDictionary_iOSTests.m */; };
-		E996038B1FC6C284001FC540 /* NSOrderedDictionary_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = E996037D1FC6C284001FC540 /* NSOrderedDictionary_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E99603A01FC6C2A7001FC540 /* NSOrderedDictionary_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E99603971FC6C2A6001FC540 /* NSOrderedDictionary_macOS.framework */; };
-		E99603A51FC6C2A7001FC540 /* NSOrderedDictionary_macOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E99603A41FC6C2A7001FC540 /* NSOrderedDictionary_macOSTests.m */; };
-		E99603A71FC6C2A7001FC540 /* NSOrderedDictionary_macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = E99603991FC6C2A6001FC540 /* NSOrderedDictionary_macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E99603B11FC6C36D001FC540 /* NSOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E99603AF1FC6C36D001FC540 /* NSOrderedDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E99603B21FC6C36D001FC540 /* NSOrderedDictionary.mm in Sources */ = {isa = PBXBuildFile; fileRef = E99603B01FC6C36D001FC540 /* NSOrderedDictionary.mm */; };
-		E99603B31FC6C455001FC540 /* NSOrderedDictionary.mm in Sources */ = {isa = PBXBuildFile; fileRef = E99603B01FC6C36D001FC540 /* NSOrderedDictionary.mm */; };
-		E99603B41FC6C456001FC540 /* NSOrderedDictionary.mm in Sources */ = {isa = PBXBuildFile; fileRef = E99603B01FC6C36D001FC540 /* NSOrderedDictionary.mm */; };
-		E99603B51FC6C456001FC540 /* NSOrderedDictionary.mm in Sources */ = {isa = PBXBuildFile; fileRef = E99603B01FC6C36D001FC540 /* NSOrderedDictionary.mm */; };
-		E99603B61FC6C460001FC540 /* NSOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E99603AF1FC6C36D001FC540 /* NSOrderedDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E99603841FC6C284001FC540 /* REOrderedDictionary_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E996037A1FC6C284001FC540 /* REOrderedDictionary_iOS.framework */; };
+		E99603891FC6C284001FC540 /* REOrderedDictionary_iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E99603881FC6C284001FC540 /* REOrderedDictionary_iOSTests.m */; };
+		E996038B1FC6C284001FC540 /* REOrderedDictionary_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = E996037D1FC6C284001FC540 /* REOrderedDictionary_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E99603A01FC6C2A7001FC540 /* REOrderedDictionary_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E99603971FC6C2A6001FC540 /* REOrderedDictionary_macOS.framework */; };
+		E99603A51FC6C2A7001FC540 /* REOrderedDictionary_macOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E99603A41FC6C2A7001FC540 /* REOrderedDictionary_macOSTests.m */; };
+		E99603A71FC6C2A7001FC540 /* REOrderedDictionary_macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = E99603991FC6C2A6001FC540 /* REOrderedDictionary_macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E99603B11FC6C36D001FC540 /* REOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E99603AF1FC6C36D001FC540 /* REOrderedDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E99603B21FC6C36D001FC540 /* REOrderedDictionary.mm in Sources */ = {isa = PBXBuildFile; fileRef = E99603B01FC6C36D001FC540 /* REOrderedDictionary.mm */; };
+		E99603B31FC6C455001FC540 /* REOrderedDictionary.mm in Sources */ = {isa = PBXBuildFile; fileRef = E99603B01FC6C36D001FC540 /* REOrderedDictionary.mm */; };
+		E99603B41FC6C456001FC540 /* REOrderedDictionary.mm in Sources */ = {isa = PBXBuildFile; fileRef = E99603B01FC6C36D001FC540 /* REOrderedDictionary.mm */; };
+		E99603B51FC6C456001FC540 /* REOrderedDictionary.mm in Sources */ = {isa = PBXBuildFile; fileRef = E99603B01FC6C36D001FC540 /* REOrderedDictionary.mm */; };
+		E99603B61FC6C460001FC540 /* REOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E99603AF1FC6C36D001FC540 /* REOrderedDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,20 +39,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E996037A1FC6C284001FC540 /* NSOrderedDictionary_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NSOrderedDictionary_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E996037D1FC6C284001FC540 /* NSOrderedDictionary_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSOrderedDictionary_iOS.h; sourceTree = "<group>"; };
+		E996037A1FC6C284001FC540 /* REOrderedDictionary_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = REOrderedDictionary_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E996037D1FC6C284001FC540 /* REOrderedDictionary_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = REOrderedDictionary_iOS.h; sourceTree = "<group>"; };
 		E996037E1FC6C284001FC540 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E99603831FC6C284001FC540 /* NSOrderedDictionary-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NSOrderedDictionary-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E99603881FC6C284001FC540 /* NSOrderedDictionary_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSOrderedDictionary_iOSTests.m; sourceTree = "<group>"; };
+		E99603831FC6C284001FC540 /* REOrderedDictionary-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "REOrderedDictionary-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E99603881FC6C284001FC540 /* REOrderedDictionary_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = REOrderedDictionary_iOSTests.m; sourceTree = "<group>"; };
 		E996038A1FC6C284001FC540 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E99603971FC6C2A6001FC540 /* NSOrderedDictionary_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NSOrderedDictionary_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E99603991FC6C2A6001FC540 /* NSOrderedDictionary_macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSOrderedDictionary_macOS.h; sourceTree = "<group>"; };
+		E99603971FC6C2A6001FC540 /* REOrderedDictionary_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = REOrderedDictionary_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E99603991FC6C2A6001FC540 /* REOrderedDictionary_macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = REOrderedDictionary_macOS.h; sourceTree = "<group>"; };
 		E996039A1FC6C2A6001FC540 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E996039F1FC6C2A6001FC540 /* NSOrderedDictionary-macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NSOrderedDictionary-macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E99603A41FC6C2A7001FC540 /* NSOrderedDictionary_macOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSOrderedDictionary_macOSTests.m; sourceTree = "<group>"; };
+		E996039F1FC6C2A6001FC540 /* REOrderedDictionary-macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "REOrderedDictionary-macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E99603A41FC6C2A7001FC540 /* REOrderedDictionary_macOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = REOrderedDictionary_macOSTests.m; sourceTree = "<group>"; };
 		E99603A61FC6C2A7001FC540 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E99603AF1FC6C36D001FC540 /* NSOrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSOrderedDictionary.h; sourceTree = "<group>"; };
-		E99603B01FC6C36D001FC540 /* NSOrderedDictionary.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NSOrderedDictionary.mm; sourceTree = "<group>"; };
+		E99603AF1FC6C36D001FC540 /* REOrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REOrderedDictionary.h; sourceTree = "<group>"; };
+		E99603B01FC6C36D001FC540 /* REOrderedDictionary.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = REOrderedDictionary.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E99603841FC6C284001FC540 /* NSOrderedDictionary_iOS.framework in Frameworks */,
+				E99603841FC6C284001FC540 /* REOrderedDictionary_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E99603A01FC6C2A7001FC540 /* NSOrderedDictionary_macOS.framework in Frameworks */,
+				E99603A01FC6C2A7001FC540 /* REOrderedDictionary_macOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,11 +92,11 @@
 		E996036E1FC6C229001FC540 = {
 			isa = PBXGroup;
 			children = (
-				E99603AE1FC6C36D001FC540 /* NSOrderedDictionary */,
-				E996037C1FC6C284001FC540 /* NSOrderedDictionary-iOS */,
-				E99603871FC6C284001FC540 /* NSOrderedDictionary-iOSTests */,
-				E99603981FC6C2A6001FC540 /* NSOrderedDictionary-macOS */,
-				E99603A31FC6C2A7001FC540 /* NSOrderedDictionary-macOSTests */,
+				E99603AE1FC6C36D001FC540 /* REOrderedDictionary */,
+				E996037C1FC6C284001FC540 /* REOrderedDictionary-iOS */,
+				E99603871FC6C284001FC540 /* REOrderedDictionary-iOSTests */,
+				E99603981FC6C2A6001FC540 /* REOrderedDictionary-macOS */,
+				E99603A31FC6C2A7001FC540 /* REOrderedDictionary-macOSTests */,
 				E996037B1FC6C284001FC540 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -104,57 +104,57 @@
 		E996037B1FC6C284001FC540 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E996037A1FC6C284001FC540 /* NSOrderedDictionary_iOS.framework */,
-				E99603831FC6C284001FC540 /* NSOrderedDictionary-iOSTests.xctest */,
-				E99603971FC6C2A6001FC540 /* NSOrderedDictionary_macOS.framework */,
-				E996039F1FC6C2A6001FC540 /* NSOrderedDictionary-macOSTests.xctest */,
+				E996037A1FC6C284001FC540 /* REOrderedDictionary_iOS.framework */,
+				E99603831FC6C284001FC540 /* REOrderedDictionary-iOSTests.xctest */,
+				E99603971FC6C2A6001FC540 /* REOrderedDictionary_macOS.framework */,
+				E996039F1FC6C2A6001FC540 /* REOrderedDictionary-macOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E996037C1FC6C284001FC540 /* NSOrderedDictionary-iOS */ = {
+		E996037C1FC6C284001FC540 /* REOrderedDictionary-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				E996037D1FC6C284001FC540 /* NSOrderedDictionary_iOS.h */,
+				E996037D1FC6C284001FC540 /* REOrderedDictionary_iOS.h */,
 				E996037E1FC6C284001FC540 /* Info.plist */,
 			);
-			path = "NSOrderedDictionary-iOS";
+			path = "REOrderedDictionary-iOS";
 			sourceTree = "<group>";
 		};
-		E99603871FC6C284001FC540 /* NSOrderedDictionary-iOSTests */ = {
+		E99603871FC6C284001FC540 /* REOrderedDictionary-iOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				E99603881FC6C284001FC540 /* NSOrderedDictionary_iOSTests.m */,
+				E99603881FC6C284001FC540 /* REOrderedDictionary_iOSTests.m */,
 				E996038A1FC6C284001FC540 /* Info.plist */,
 			);
-			path = "NSOrderedDictionary-iOSTests";
+			path = "REOrderedDictionary-iOSTests";
 			sourceTree = "<group>";
 		};
-		E99603981FC6C2A6001FC540 /* NSOrderedDictionary-macOS */ = {
+		E99603981FC6C2A6001FC540 /* REOrderedDictionary-macOS */ = {
 			isa = PBXGroup;
 			children = (
-				E99603991FC6C2A6001FC540 /* NSOrderedDictionary_macOS.h */,
+				E99603991FC6C2A6001FC540 /* REOrderedDictionary_macOS.h */,
 				E996039A1FC6C2A6001FC540 /* Info.plist */,
 			);
-			path = "NSOrderedDictionary-macOS";
+			path = "REOrderedDictionary-macOS";
 			sourceTree = "<group>";
 		};
-		E99603A31FC6C2A7001FC540 /* NSOrderedDictionary-macOSTests */ = {
+		E99603A31FC6C2A7001FC540 /* REOrderedDictionary-macOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				E99603A41FC6C2A7001FC540 /* NSOrderedDictionary_macOSTests.m */,
+				E99603A41FC6C2A7001FC540 /* REOrderedDictionary_macOSTests.m */,
 				E99603A61FC6C2A7001FC540 /* Info.plist */,
 			);
-			path = "NSOrderedDictionary-macOSTests";
+			path = "REOrderedDictionary-macOSTests";
 			sourceTree = "<group>";
 		};
-		E99603AE1FC6C36D001FC540 /* NSOrderedDictionary */ = {
+		E99603AE1FC6C36D001FC540 /* REOrderedDictionary */ = {
 			isa = PBXGroup;
 			children = (
-				E99603AF1FC6C36D001FC540 /* NSOrderedDictionary.h */,
-				E99603B01FC6C36D001FC540 /* NSOrderedDictionary.mm */,
+				E99603AF1FC6C36D001FC540 /* REOrderedDictionary.h */,
+				E99603B01FC6C36D001FC540 /* REOrderedDictionary.mm */,
 			);
-			path = NSOrderedDictionary;
+			path = REOrderedDictionary;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,8 +164,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E996038B1FC6C284001FC540 /* NSOrderedDictionary_iOS.h in Headers */,
-				E99603B11FC6C36D001FC540 /* NSOrderedDictionary.h in Headers */,
+				E996038B1FC6C284001FC540 /* REOrderedDictionary_iOS.h in Headers */,
+				E99603B11FC6C36D001FC540 /* REOrderedDictionary.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,17 +173,17 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E99603A71FC6C2A7001FC540 /* NSOrderedDictionary_macOS.h in Headers */,
-				E99603B61FC6C460001FC540 /* NSOrderedDictionary.h in Headers */,
+				E99603A71FC6C2A7001FC540 /* REOrderedDictionary_macOS.h in Headers */,
+				E99603B61FC6C460001FC540 /* REOrderedDictionary.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		E99603791FC6C284001FC540 /* NSOrderedDictionary-iOS */ = {
+		E99603791FC6C284001FC540 /* REOrderedDictionary-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E996038C1FC6C284001FC540 /* Build configuration list for PBXNativeTarget "NSOrderedDictionary-iOS" */;
+			buildConfigurationList = E996038C1FC6C284001FC540 /* Build configuration list for PBXNativeTarget "REOrderedDictionary-iOS" */;
 			buildPhases = (
 				E99603751FC6C284001FC540 /* Sources */,
 				E99603761FC6C284001FC540 /* Frameworks */,
@@ -194,14 +194,14 @@
 			);
 			dependencies = (
 			);
-			name = "NSOrderedDictionary-iOS";
+			name = "REOrderedDictionary-iOS";
 			productName = "NSOrderedDictionary-iOS";
-			productReference = E996037A1FC6C284001FC540 /* NSOrderedDictionary_iOS.framework */;
+			productReference = E996037A1FC6C284001FC540 /* REOrderedDictionary_iOS.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		E99603821FC6C284001FC540 /* NSOrderedDictionary-iOSTests */ = {
+		E99603821FC6C284001FC540 /* REOrderedDictionary-iOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E996038F1FC6C284001FC540 /* Build configuration list for PBXNativeTarget "NSOrderedDictionary-iOSTests" */;
+			buildConfigurationList = E996038F1FC6C284001FC540 /* Build configuration list for PBXNativeTarget "REOrderedDictionary-iOSTests" */;
 			buildPhases = (
 				E996037F1FC6C284001FC540 /* Sources */,
 				E99603801FC6C284001FC540 /* Frameworks */,
@@ -212,14 +212,14 @@
 			dependencies = (
 				E99603861FC6C284001FC540 /* PBXTargetDependency */,
 			);
-			name = "NSOrderedDictionary-iOSTests";
+			name = "REOrderedDictionary-iOSTests";
 			productName = "NSOrderedDictionary-iOSTests";
-			productReference = E99603831FC6C284001FC540 /* NSOrderedDictionary-iOSTests.xctest */;
+			productReference = E99603831FC6C284001FC540 /* REOrderedDictionary-iOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		E99603961FC6C2A6001FC540 /* NSOrderedDictionary-macOS */ = {
+		E99603961FC6C2A6001FC540 /* REOrderedDictionary-macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E99603A81FC6C2A7001FC540 /* Build configuration list for PBXNativeTarget "NSOrderedDictionary-macOS" */;
+			buildConfigurationList = E99603A81FC6C2A7001FC540 /* Build configuration list for PBXNativeTarget "REOrderedDictionary-macOS" */;
 			buildPhases = (
 				E99603921FC6C2A6001FC540 /* Sources */,
 				E99603931FC6C2A6001FC540 /* Frameworks */,
@@ -230,14 +230,14 @@
 			);
 			dependencies = (
 			);
-			name = "NSOrderedDictionary-macOS";
+			name = "REOrderedDictionary-macOS";
 			productName = "NSOrderedDictionary-macOS";
-			productReference = E99603971FC6C2A6001FC540 /* NSOrderedDictionary_macOS.framework */;
+			productReference = E99603971FC6C2A6001FC540 /* REOrderedDictionary_macOS.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		E996039E1FC6C2A6001FC540 /* NSOrderedDictionary-macOSTests */ = {
+		E996039E1FC6C2A6001FC540 /* REOrderedDictionary-macOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E99603AB1FC6C2A7001FC540 /* Build configuration list for PBXNativeTarget "NSOrderedDictionary-macOSTests" */;
+			buildConfigurationList = E99603AB1FC6C2A7001FC540 /* Build configuration list for PBXNativeTarget "REOrderedDictionary-macOSTests" */;
 			buildPhases = (
 				E996039B1FC6C2A6001FC540 /* Sources */,
 				E996039C1FC6C2A6001FC540 /* Frameworks */,
@@ -248,9 +248,9 @@
 			dependencies = (
 				E99603A21FC6C2A7001FC540 /* PBXTargetDependency */,
 			);
-			name = "NSOrderedDictionary-macOSTests";
+			name = "REOrderedDictionary-macOSTests";
 			productName = "NSOrderedDictionary-macOSTests";
-			productReference = E996039F1FC6C2A6001FC540 /* NSOrderedDictionary-macOSTests.xctest */;
+			productReference = E996039F1FC6C2A6001FC540 /* REOrderedDictionary-macOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -279,7 +279,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E99603721FC6C229001FC540 /* Build configuration list for PBXProject "NSOrderedDictionary" */;
+			buildConfigurationList = E99603721FC6C229001FC540 /* Build configuration list for PBXProject "REOrderedDictionary" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -291,10 +291,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E99603791FC6C284001FC540 /* NSOrderedDictionary-iOS */,
-				E99603821FC6C284001FC540 /* NSOrderedDictionary-iOSTests */,
-				E99603961FC6C2A6001FC540 /* NSOrderedDictionary-macOS */,
-				E996039E1FC6C2A6001FC540 /* NSOrderedDictionary-macOSTests */,
+				E99603791FC6C284001FC540 /* REOrderedDictionary-iOS */,
+				E99603821FC6C284001FC540 /* REOrderedDictionary-iOSTests */,
+				E99603961FC6C2A6001FC540 /* REOrderedDictionary-macOS */,
+				E996039E1FC6C2A6001FC540 /* REOrderedDictionary-macOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -335,7 +335,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E99603B21FC6C36D001FC540 /* NSOrderedDictionary.mm in Sources */,
+				E99603B21FC6C36D001FC540 /* REOrderedDictionary.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,8 +343,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E99603B31FC6C455001FC540 /* NSOrderedDictionary.mm in Sources */,
-				E99603891FC6C284001FC540 /* NSOrderedDictionary_iOSTests.m in Sources */,
+				E99603B31FC6C455001FC540 /* REOrderedDictionary.mm in Sources */,
+				E99603891FC6C284001FC540 /* REOrderedDictionary_iOSTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,7 +352,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E99603B41FC6C456001FC540 /* NSOrderedDictionary.mm in Sources */,
+				E99603B41FC6C456001FC540 /* REOrderedDictionary.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,8 +360,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E99603B51FC6C456001FC540 /* NSOrderedDictionary.mm in Sources */,
-				E99603A51FC6C2A7001FC540 /* NSOrderedDictionary_macOSTests.m in Sources */,
+				E99603B51FC6C456001FC540 /* REOrderedDictionary.mm in Sources */,
+				E99603A51FC6C2A7001FC540 /* REOrderedDictionary_macOSTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,12 +370,12 @@
 /* Begin PBXTargetDependency section */
 		E99603861FC6C284001FC540 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E99603791FC6C284001FC540 /* NSOrderedDictionary-iOS */;
+			target = E99603791FC6C284001FC540 /* REOrderedDictionary-iOS */;
 			targetProxy = E99603851FC6C284001FC540 /* PBXContainerItemProxy */;
 		};
 		E99603A21FC6C2A7001FC540 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E99603961FC6C2A6001FC540 /* NSOrderedDictionary-macOS */;
+			target = E99603961FC6C2A6001FC540 /* REOrderedDictionary-macOS */;
 			targetProxy = E99603A11FC6C2A7001FC540 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -447,13 +447,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "NSOrderedDictionary-iOS/Info.plist";
+				INFOPLIST_FILE = "REOrderedDictionary-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "ok.NSOrderedDictionary-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "ok.REOrderedDictionary-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -511,12 +511,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "NSOrderedDictionary-iOS/Info.plist";
+				INFOPLIST_FILE = "REOrderedDictionary-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "ok.NSOrderedDictionary-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "ok.REOrderedDictionary-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -576,12 +576,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "NSOrderedDictionary-iOSTests/Info.plist";
+				INFOPLIST_FILE = "REOrderedDictionary-iOSTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "ok.NSOrderedDictionary-iOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "ok.REOrderedDictionary-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -631,11 +631,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "NSOrderedDictionary-iOSTests/Info.plist";
+				INFOPLIST_FILE = "REOrderedDictionary-iOSTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "ok.NSOrderedDictionary-iOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "ok.REOrderedDictionary-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -699,13 +699,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "NSOrderedDictionary-macOS/Info.plist";
+				INFOPLIST_FILE = "REOrderedDictionary-macOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "ok.NSOrderedDictionary-macOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "ok.REOrderedDictionary-macOS";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -764,12 +764,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "NSOrderedDictionary-macOS/Info.plist";
+				INFOPLIST_FILE = "REOrderedDictionary-macOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "ok.NSOrderedDictionary-macOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "ok.REOrderedDictionary-macOS";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -828,12 +828,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "NSOrderedDictionary-macOSTests/Info.plist";
+				INFOPLIST_FILE = "REOrderedDictionary-macOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "ok.NSOrderedDictionary-macOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "ok.REOrderedDictionary-macOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
@@ -883,11 +883,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "NSOrderedDictionary-macOSTests/Info.plist";
+				INFOPLIST_FILE = "REOrderedDictionary-macOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "ok.NSOrderedDictionary-macOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "ok.REOrderedDictionary-macOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
@@ -896,7 +896,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E99603721FC6C229001FC540 /* Build configuration list for PBXProject "NSOrderedDictionary" */ = {
+		E99603721FC6C229001FC540 /* Build configuration list for PBXProject "REOrderedDictionary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E99603731FC6C229001FC540 /* Debug */,
@@ -905,7 +905,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E996038C1FC6C284001FC540 /* Build configuration list for PBXNativeTarget "NSOrderedDictionary-iOS" */ = {
+		E996038C1FC6C284001FC540 /* Build configuration list for PBXNativeTarget "REOrderedDictionary-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E996038D1FC6C284001FC540 /* Debug */,
@@ -914,7 +914,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E996038F1FC6C284001FC540 /* Build configuration list for PBXNativeTarget "NSOrderedDictionary-iOSTests" */ = {
+		E996038F1FC6C284001FC540 /* Build configuration list for PBXNativeTarget "REOrderedDictionary-iOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E99603901FC6C284001FC540 /* Debug */,
@@ -923,7 +923,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E99603A81FC6C2A7001FC540 /* Build configuration list for PBXNativeTarget "NSOrderedDictionary-macOS" */ = {
+		E99603A81FC6C2A7001FC540 /* Build configuration list for PBXNativeTarget "REOrderedDictionary-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E99603A91FC6C2A7001FC540 /* Debug */,
@@ -932,7 +932,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E99603AB1FC6C2A7001FC540 /* Build configuration list for PBXNativeTarget "NSOrderedDictionary-macOSTests" */ = {
+		E99603AB1FC6C2A7001FC540 /* Build configuration list for PBXNativeTarget "REOrderedDictionary-macOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E99603AC1FC6C2A7001FC540 /* Debug */,

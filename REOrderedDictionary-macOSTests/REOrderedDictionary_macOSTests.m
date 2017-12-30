@@ -1,17 +1,17 @@
 //
-//  NSOrderedDictionary_macOSTests.m
-//  NSOrderedDictionary-macOSTests
+//  REOrderedDictionary_macOSTests.m
+//  REOrderedDictionary-macOSTests
 //
 //  Created by Oleh Kulykov on 23.11.17.
 //
 
 #import <XCTest/XCTest.h>
 
-@interface NSOrderedDictionary_macOSTests : XCTestCase
+@interface REOrderedDictionary_macOSTests : XCTestCase
 
 @end
 
-@implementation NSOrderedDictionary_macOSTests
+@implementation REOrderedDictionary_macOSTests
 
 - (void)setUp {
     [super setUp];

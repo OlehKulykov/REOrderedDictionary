@@ -1,18 +1,18 @@
 //
-//  NSOrderedDictionary_iOSTests.m
-//  NSOrderedDictionary-iOSTests
+//  REOrderedDictionary_iOSTests.m
+//  REOrderedDictionary-iOSTests
 //
 //  Created by Oleh Kulykov on 23.11.17.
 //
 
 #import <XCTest/XCTest.h>
-#import "NSOrderedDictionary.h"
+#import "REOrderedDictionary.h"
 
-@interface NSOrderedDictionary_iOSTests : XCTestCase
+@interface REOrderedDictionary_iOSTests : XCTestCase
 
 @end
 
-@implementation NSOrderedDictionary_iOSTests
+@implementation REOrderedDictionary_iOSTests
 
 static NSInteger compareNumberKeys1(NSNumber * k1, NSNumber * k2, void * _Nullable context) {
     return [k1 compare:k2];
@@ -28,7 +28,7 @@ static NSInteger compareNumberKeys1(NSNumber * k1, NSNumber * k2, void * _Nullab
     [super tearDown];
 }
 
-- (BOOL) isSortedByNumberKeys:(NSOrderedDictionary *) dict {
+- (BOOL) isSortedByNumberKeys:(REOrderedDictionary *) dict {
     NSNumber * lastKey = nil;
     for (NSNumber * key in dict) {
         XCTAssertTrue([key isKindOfClass:[NSNumber class]]);
@@ -165,30 +165,30 @@ static NSInteger compareNumberKeys1(NSNumber * k1, NSNumber * k2, void * _Nullab
 }
 
 - (void) testCodingDecoding {
-    NSOrderedDictionary * d1 = [[NSOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), @"#1", @(1), nil];
+    REOrderedDictionary * d1 = [[REOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), @"#1", @(1), nil];
     NSMutableData * data = [[NSMutableData alloc] init];
     NSKeyedArchiver * coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
     [d1 encodeWithCoder:coder];
     [coder finishEncoding];
     NSKeyedUnarchiver * decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    NSOrderedDictionary * d2 = [[NSOrderedDictionary alloc] initWithCoder:decoder];
+    REOrderedDictionary * d2 = [[REOrderedDictionary alloc] initWithCoder:decoder];
     XCTAssertNotNil(d1);
     XCTAssertNotNil(d2);
     XCTAssertTrue(d2.count == d1.count);
-    XCTAssertTrue([d2 isKindOfClass:[NSOrderedDictionary class]]);
+    XCTAssertTrue([d2 isKindOfClass:[REOrderedDictionary class]]);
     d1 = nil;
     d2 = nil;
 }
 
 - (void) testEqual {
-    NSOrderedDictionary * d1 = [[NSOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), nil];
-    NSOrderedDictionary * d2 = [[NSOrderedDictionary alloc] initWithObjectsAndKeys:nil];
+    REOrderedDictionary * d1 = [[REOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), nil];
+    REOrderedDictionary * d2 = [[REOrderedDictionary alloc] initWithObjectsAndKeys:nil];
     XCTAssertFalse([d1 isEqualToOrderedDictionary:d2]);
     
-    d2 = [[NSOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), nil];
+    d2 = [[REOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), nil];
     XCTAssertTrue([d1 isEqualToOrderedDictionary:d2]);
     
-    d2 = [[NSOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), @"#1", @(1), nil];
+    d2 = [[REOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), @"#1", @(1), nil];
     XCTAssertFalse([d1 isEqualToOrderedDictionary:d2]);
     
     XCTAssertFalse([d1 isEqualToDictionary:@{}]);
@@ -201,7 +201,7 @@ static NSInteger compareNumberKeys1(NSNumber * k1, NSNumber * k2, void * _Nullab
 }
 
 - (void) testMutableCopy {
-    NSOrderedDictionary * d1 = [[NSOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), nil];
+    REOrderedDictionary * d1 = [[REOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), nil];
     NSMutableOrderedDictionary * d2 = [d1 mutableCopy];
     XCTAssertNotNil(d1);
     XCTAssertNotNil(d2);
@@ -212,8 +212,8 @@ static NSInteger compareNumberKeys1(NSNumber * k1, NSNumber * k2, void * _Nullab
 }
 
 - (void) testCopy {
-    NSOrderedDictionary * d1 = [[NSOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), nil];
-    NSOrderedDictionary * d2 = [d1 copy];
+    REOrderedDictionary * d1 = [[REOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), nil];
+    REOrderedDictionary * d2 = [d1 copy];
     XCTAssertNotNil(d1);
     XCTAssertNotNil(d2);
     XCTAssertTrue(d2.count == d1.count);
@@ -222,51 +222,51 @@ static NSInteger compareNumberKeys1(NSNumber * k1, NSNumber * k2, void * _Nullab
 }
 
 - (void) testCreation {
-    NSOrderedDictionary * d = [[NSOrderedDictionary alloc] init];
+    REOrderedDictionary * d = [[REOrderedDictionary alloc] init];
     XCTAssertNotNil(d);
     XCTAssertTrue(d.count == 0);
     
-    d = [[NSOrderedDictionary alloc] initWithObjectsAndKeys:nil];
+    d = [[REOrderedDictionary alloc] initWithObjectsAndKeys:nil];
     XCTAssertNotNil(d);
     XCTAssertTrue(d.count == 0);
     
-    d = [[NSOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", nil];
+    d = [[REOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", nil];
     XCTAssertNotNil(d);
     XCTAssertTrue(d.count == 0);
     
-    d = [[NSOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), nil];
+    d = [[REOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), nil];
     XCTAssertNotNil(d);
     XCTAssertTrue(d.count == 1);
     
-    d = [[NSOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), @"#1", @(1), nil];
+    d = [[REOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), @"#1", @(1), nil];
     XCTAssertNotNil(d);
     XCTAssertTrue(d.count == 2);
     
-    d = [[NSOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), @"#1", @(1), @"2", nil];
+    d = [[REOrderedDictionary alloc] initWithObjectsAndKeys:@"#0", @(0), @"#1", @(1), @"2", nil];
     XCTAssertNotNil(d);
     XCTAssertTrue(d.count == 2);
     
-    d = [[NSOrderedDictionary alloc] initWithObjects:@[] andKeys:@[]];
+    d = [[REOrderedDictionary alloc] initWithObjects:@[] andKeys:@[]];
     XCTAssertNotNil(d);
     XCTAssertTrue(d.count == 0);
     
-    d = [[NSOrderedDictionary alloc] initWithObjects:@[ @"#0" ] andKeys:@[]];
+    d = [[REOrderedDictionary alloc] initWithObjects:@[ @"#0" ] andKeys:@[]];
     XCTAssertNotNil(d);
     XCTAssertTrue(d.count == 0);
     
-    d = [[NSOrderedDictionary alloc] initWithObjects:@[ @"#0" ] andKeys:@[ @(0) ]];
+    d = [[REOrderedDictionary alloc] initWithObjects:@[ @"#0" ] andKeys:@[ @(0) ]];
     XCTAssertNotNil(d);
     XCTAssertTrue(d.count == 1);
     
-    d = [[NSOrderedDictionary alloc] initWithObjects:@[ @"#0", @"#1" ] andKeys:@[ @(0) ]];
+    d = [[REOrderedDictionary alloc] initWithObjects:@[ @"#0", @"#1" ] andKeys:@[ @(0) ]];
     XCTAssertNotNil(d);
     XCTAssertTrue(d.count == 1);
     
-    d = [[NSOrderedDictionary alloc] initWithObjects:@[ @"#0", @"#1" ] andKeys:@[ ]];
+    d = [[REOrderedDictionary alloc] initWithObjects:@[ @"#0", @"#1" ] andKeys:@[ ]];
     XCTAssertNotNil(d);
     XCTAssertTrue(d.count == 0);
     
-    d = [[NSOrderedDictionary alloc] initWithObjects:@[ @"#0", @"#1" ] andKeys:@[ @(0), @(1) ]];
+    d = [[REOrderedDictionary alloc] initWithObjects:@[ @"#0", @"#1" ] andKeys:@[ @(0), @(1) ]];
     XCTAssertNotNil(d);
     XCTAssertTrue(d.count == 2);
     
